@@ -1,30 +1,23 @@
 package com.example.demo.Entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "items")
-public class Item {
-
+@Table(name="items")
+public class User {
   @Id
   Integer id;
 
   String name;
 
-  @Column(name = "user_id")
-  Integer user_id; //userId
-
-  public Item(Integer id, String name, Integer user_id) {
+  public User(Integer id, String name) {
     this.id = id;
     this.name = name;
-    this.user_id = user_id;
   }
 
-  public Item() {
-  }
+  public User(){}
 
   public Integer getId() {
     return id;
@@ -40,13 +33,5 @@ public class Item {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Integer getUser_id() {
-    return user_id;
-  }
-
-  public void setUser_id(Integer user_id) {
-    this.user_id = user_id;
   }
 }
