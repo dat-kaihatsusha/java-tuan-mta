@@ -2,12 +2,17 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RequestMapping()
@@ -17,13 +22,16 @@ public class TestController {
   @Autowired
   UserRepository userRepository;
 
+  @Autowired
+  UserServiceImpl userService;
+
   @GetMapping(value = "/test-api")
   ResponseEntity<?> testApi() {
     return new ResponseEntity<>("Done", HttpStatus.OK);
   }
 
   @GetMapping(value = "/users")
-  ResponseEntity<List<User>> getAllUser() {
+  ResponseEntity<List<User>> getAllUser(){
     List<User> result = userRepository.findALlUser();
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
@@ -39,5 +47,12 @@ public class TestController {
   ResponseEntity<?> addNewUser(@RequestBody User user) {
     Integer result = userRepository.addNewUser(String.valueOf(user.getId()), user.getName());
     return new ResponseEntity<>("succees", HttpStatus.OK);
+  }
+
+  @Transactional
+  @PutMapping(value = "/users")
+  ResponseEntity<?> updateUser(@RequestBody User user){
+    userService.updateUser(user);
+    return new ResponseEntity<>("you can do it!", HttpStatus.OK);
   }
 }
