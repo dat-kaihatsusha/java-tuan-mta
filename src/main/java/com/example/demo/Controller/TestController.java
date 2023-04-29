@@ -9,11 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping()
 @RestController
@@ -31,7 +28,7 @@ public class TestController {
   }
 
   @GetMapping(value = "/users")
-  ResponseEntity<List<User>> getAllUser(){
+  ResponseEntity<List<User>> getAllUser() {
     List<User> result = userRepository.findALlUser();
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
@@ -49,10 +46,9 @@ public class TestController {
     return new ResponseEntity<>("succees", HttpStatus.OK);
   }
 
-  @Transactional
   @PutMapping(value = "/users")
-  ResponseEntity<?> updateUser(@RequestBody User user){
-    userService.updateUser(user);
-    return new ResponseEntity<>("you can do it!", HttpStatus.OK);
+  ResponseEntity<User> updateUser(@RequestBody User user) throws Exception {
+    User result = userService.updateUser(user);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 }

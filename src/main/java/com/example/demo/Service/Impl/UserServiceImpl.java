@@ -8,17 +8,24 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepository userRepository;
+  @Autowired
+  UserRepository userRepository;
 
-    @Modifying
-    @Transactional
-    @Override
-    public void updateUser(User user) {
-        userRepository.updateUser(user.getName(), String.valueOf(user.getId()));
+  @Override
+  public User updateUser(User user) throws Exception {
+    Optional<User> userById = userRepository.findById(user.getId());
+    if (!userById.isPresent()) {
+      throw new Exception();
     }
+    userById.get().setId(user.getId());
+    userById.get().setName(user.getName());
+    userRepository.save(userById.get());
+    Optional<User> user1 = userRepository.findById(user.getId());
+    return user1.get();
+  }
 }
