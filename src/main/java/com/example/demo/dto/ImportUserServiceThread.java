@@ -2,9 +2,6 @@ package com.example.demo.dto;
 
 import com.example.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import com.example.demo.dto.UserDTO;
 
 public class ImportUserServiceThread implements Runnable {
 
