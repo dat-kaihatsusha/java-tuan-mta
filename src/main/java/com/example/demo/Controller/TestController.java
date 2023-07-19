@@ -4,6 +4,7 @@ import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +51,12 @@ public class TestController {
   ResponseEntity<User> updateUser(@RequestBody User user) throws Exception {
     User result = userService.updateUser(user);
     return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+
+  @Bean
+  @GetMapping(value = "/test-bean")
+  ResponseEntity<?> testBean(){
+    System.out.println("run into test-bean");
+    return new ResponseEntity<>("success", HttpStatus.OK);
   }
 }

@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT * from user", nativeQuery = true)
@@ -26,4 +28,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Query(value = "update user set name = :name where id = :id", nativeQuery = true)
     Integer updateUser(@Param("name") String name, @Param("id") String id);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "insert into user(name, username, password) value(:name, :username, :password) ", nativeQuery = true)
+    void importUserThread(@Param("name") String name, @Param("username") String username, @Param("password") String password);
 }

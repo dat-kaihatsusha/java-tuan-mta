@@ -1,37 +1,29 @@
 package com.example.demo.Entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="user")
 public class User {
   @Id
   Integer id;
 
+  @Column(name = "name")
   String name;
 
-  public User(Integer id, String name) {
-    this.id = id;
-    this.name = name;
-  }
+  @Column(name = "userName")
+  String userName;
 
-  public User(){}
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
+  @Column(name = "password")
+  String password;
 }
