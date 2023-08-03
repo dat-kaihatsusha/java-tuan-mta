@@ -1,8 +1,9 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Entity.User;
-import com.example.demo.Repository.UserRepository;
+import com.example.demo.entity.User;
+import com.example.demo.Repository1.UserRepository1;
 import com.example.demo.Service.Impl.UserServiceImpl;
+import com.example.demo.repository2.UserRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,14 +13,16 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping()
 @RestController
 public class TestController {
 
   @Autowired
-  UserRepository userRepository;
+  UserRepository1 userRepository;
+
+  @Autowired
+  UserRepository2 userRepository2;
 
   @Autowired
   UserServiceImpl userService;
@@ -32,12 +35,18 @@ public class TestController {
   @GetMapping(value = "/users")
   ResponseEntity<List<User>> getAllUser() {
     List<User> result = userRepository.findALlUser();
+    List<com.example.demo.entity2.User> result2 = userRepository2.findALlUser();
+    List<com.example.demo.entity2.User> userList2 = userRepository2.findAll();
+//    System.out.println("db1: " + userRepository.findAll().toString());
+//    System.out.println("db2: " + userRepository2.findAll().toString());
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @GetMapping(value = "/users/{id}")
   ResponseEntity<List<User>> getUserById(@PathVariable("id") String id) {
     List<User> result = userRepository.findUserById(id);
+    System.out.println("db1: " + userRepository.findAll().toString());
+    System.out.println("db2: " + userRepository2.findAll().toString());
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
@@ -56,13 +65,22 @@ public class TestController {
 
   @Bean
   @GetMapping(value = "/test-bean")
-  ResponseEntity<?> testBean(){
+  ResponseEntity<?> testBean() {
     System.out.println("run into test-bean");
+    System.out.println("run into main thread: " + System.currentTimeMillis());
+    new Thread(() -> {
+      System.out.println("run thread 1");
+      System.out.println("run thread 1: " + System.currentTimeMillis());
+    }).start();
+    new Thread(() -> {
+      System.out.println("run thread 2");
+      System.out.println("run thread 2: " + System.currentTimeMillis());
+    }).start();
     return new ResponseEntity<>("success", HttpStatus.OK);
   }
 
   @GetMapping(value = "/test-rest-template")
-  ResponseEntity<?> testRestTemplate(){
+  ResponseEntity<?> testRestTemplate() {
     RestTemplate restTemplate = new RestTemplate();
 
     /*Get user detail*/
@@ -105,7 +123,8 @@ public class TestController {
         url3,
         HttpMethod.GET,
         null,
-        new ParameterizedTypeReference<List<User>>() {}
+        new ParameterizedTypeReference<List<User>>() {
+        }
     );
 
     return new ResponseEntity<>(response3.getBody(), HttpStatus.OK);

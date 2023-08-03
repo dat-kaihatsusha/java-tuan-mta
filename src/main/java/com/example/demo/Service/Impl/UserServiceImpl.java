@@ -1,20 +1,18 @@
 package com.example.demo.Service.Impl;
 
-import com.example.demo.Entity.User;
-import com.example.demo.Repository.UserRepository;
+import com.example.demo.entity.User;
+import com.example.demo.Repository1.UserRepository1;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
   @Autowired
-  UserRepository userRepository;
+  UserRepository1 userRepository;
 
   @Override
   public User updateUser(User user) throws Exception {

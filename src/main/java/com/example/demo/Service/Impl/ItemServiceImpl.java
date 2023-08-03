@@ -1,6 +1,7 @@
+/*
 package com.example.demo.Service.Impl;
 
-import com.example.demo.Entity.Item;
+import com.example.demo.entity.Item;
 import com.example.demo.Repository.ItemRepository;
 import com.example.demo.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,14 @@ import java.util.Optional;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-  @Autowired
-  ItemRepository itemRepository;
+  */
+/*@Autowired
+  ItemRepository itemRepository;*//*
+
   @Override
   public Integer findItemIdByName(String name) {
-   return itemRepository.findIdByName(name);
+    return null;
+//   return itemRepository.findIdByName(name);
   }
 
   @Override
@@ -44,3 +48,4 @@ public class ItemServiceImpl implements ItemService {
     return itemRepository.save(item);
   }
 }
+*/

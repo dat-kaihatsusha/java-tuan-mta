@@ -1,4 +1,4 @@
-package com.example.demo.Entity;
+package com.example.demo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="user")
+@Table(schema = "hello", name="user")
 public class User {
   @Id
   Integer id;
@@ -21,7 +21,7 @@ public class User {
   @Column(name = "name")
   String name;
 
-  @Column(name = "userName")
+  @Column(name = "username")
   String userName;
 
   @Column(name = "password")

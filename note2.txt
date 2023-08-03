@@ -1,0 +1,61 @@
+package com.example.demo.twodatabase;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+@Configuration
+@EnableTransactionManagement
+public class JpaConfig {
+  @Primary
+  @Bean(name = "dataSource")
+  @ConfigurationProperties(prefix = "spring.datasource")
+  public DataSource dataSource() {
+    return DataSourceBuilder.create().build();
+  }
+
+  @Bean(name = "hello2")
+  @ConfigurationProperties(prefix = "hello2")
+  public DataSource dataSource2() {
+    return DataSourceBuilder.create().build();
+  }
+
+  @Primary
+  @Bean(name = "entityManagerFactory123")
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("dataSource") DataSource dataSource){
+    return builder.dataSource(dataSource)
+        .packages("src/main/java/com/example/demo/entity")
+        .persistenceUnit("db1")
+        .build();
+  }
+
+  @Bean(name = "entityManagerFactory2")
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory2(EntityManagerFactoryBuilder builder, @Qualifier("hello2") DataSource dataSource2){
+    return builder.dataSource(dataSource2)
+        .packages("src/main/java/com/example/demo/entity2")
+        .persistenceUnit("db2")
+        .build();
+  }
+
+  @Primary
+  @Bean(name = "transactionManager")
+  public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory")EntityManagerFactory entityManagerFactory){
+    return new JpaTransactionManager(entityManagerFactory);
+  }
+
+  @Bean(name = "transactionManager2")
+  public PlatformTransactionManager transactionManager2(@Qualifier("entityManagerFactory2")EntityManagerFactory entityManagerFactory2){
+    return new JpaTransactionManager(entityManagerFactory2);
+  }
+}

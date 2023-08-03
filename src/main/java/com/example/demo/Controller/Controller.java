@@ -1,8 +1,6 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Entity.Item;
-import com.example.demo.Repository.UserRepository;
-import com.example.demo.Service.ItemService;
+import com.example.demo.Repository1.UserRepository1;
 import com.example.demo.dto.ImportUserServiceThread;
 import com.example.demo.dto.UserDTO;
 import org.apache.poi.ss.usermodel.Row;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,13 +22,13 @@ import java.util.concurrent.Executors;
 @RequestMapping("/api/items")
 public class Controller {
 
-  @Autowired
-  ItemService itemService;
+  /*@Autowired
+  ItemService itemService;*/
 
   @Autowired
-  UserRepository userRepository;
+  UserRepository1 userRepository;
 
-  @GetMapping()
+  /*@GetMapping()
   public ResponseEntity<List<Item>> getAllItem() {
 
     return ResponseEntity.ok(itemService.getAll());
@@ -51,7 +48,7 @@ public class Controller {
   @PostMapping()
   public ResponseEntity<Item> postItem(@RequestBody Item item) {
     return ResponseEntity.ok(itemService.add(item));
-  }
+  }*/
 
   @GetMapping("/test-multiple-threading")
   public ResponseEntity<?> testMultipleThreading() {

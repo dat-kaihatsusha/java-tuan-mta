@@ -1,6 +1,6 @@
-package com.example.demo.Repository;
+package com.example.demo.Repository1;
 
-import com.example.demo.Entity.User;
+import com.example.demo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository1 extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT * from user", nativeQuery = true)
     List<User> findALlUser();
